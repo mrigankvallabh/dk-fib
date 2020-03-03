@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t scsit/dk-fib-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true scsit/dk-fib-test npm test
+
+after_success:
+  # Build images
+  - docker build -t scsit/dk-fib-client ./client
+  - docker build -t scsit/dk-fib-nginx ./nginx
+  - docker build -t scsit/dk-fib-server ./server
+  - docker build -t scsit/dk-fib-worker ./worker
+  # Log into the Docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push the build images above to Docker Hub
+  - docker push scsit/dk-fib-client
+  - docker push scsit/dk-fib-nginx 
+  - docker push scsit/dk-fib-server
+  - docker push scsit/dk-fib-worker
