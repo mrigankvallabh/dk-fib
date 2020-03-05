@@ -1,0 +1,37 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "scsit/dk-fib-client",
+      "hostname": "client",
+      "essential": false,
+      "memory": 128
+    }, {
+      "name": "nginx",
+      "image": "scsit/dk-fib-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"]
+    }, {
+      "name": "server",
+      "image": "scsit/dk-fib-server",
+      "hostname": "api",
+      "essential": false,
+      "memory": 128
+    }, {
+      "name": "worker",
+      "image": "scsit/dk-fib-worker",
+      "hostname": "worker",
+      "essential": false,
+      "memory": 128
+    }
+  ]
+}

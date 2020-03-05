@@ -18,6 +18,6 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push the build images above to Docker Hub
   - docker push scsit/dk-fib-client
-  - docker push scsit/dk-fib-nginx 
+  - docker push scsit/dk-fib-nginx
   - docker push scsit/dk-fib-server
   - docker push scsit/dk-fib-worker
